@@ -6,8 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +40,13 @@ public class SeleniumTest {
         searchField.sendKeys(input);
         searchField.submit();
 
-        WebElement searchPageField = driver.findElement(By.cssSelector("#sb_form_q"));
-        assertEquals(input, searchPageField.getAttribute("value"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+        wait.until(ExpectedConditions.and(
+                ExpectedConditions.attributeContains(By.cssSelector("//a[contains(@class, 'tilk')][contains(@href, 'selenium.dev')]"), "href", "selenium"),
+                ExpectedConditions.elementToBeClickable(By.cssSelector("//a[contains(@class, 'tilk')][contains(@href, 'selenium.dev')]"))
+        ));
+
+        List<WebElement> results = driver.findElements(By.cssSelector("//a[contains(@class, 'tilk')][contains(@href, 'selenium.dev')]"));
+        results.get(4).click();
     }
 }
