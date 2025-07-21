@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeleniumTest {
@@ -40,20 +41,21 @@ public class SeleniumTest {
         ExpectedConditions.attributeContains((link), "href", "selenium"),
         ExpectedConditions.elementToBeClickable(link)));
 
-        clickLink();
+        List<WebElement> results = driver.findElements(By.cssSelector(".b_attribution"));
+        clickLink(results);
     }
 
-    public void clickLink() {
-        String a = "https://www.selenium.dev";
-        int j = 0;
-        List<WebElement> results = driver.findElements(By.cssSelector(".b_attribution"));
-        for (WebElement i : results) {
-            String b = i.getText();
-            if (a.equals(b)) {
-                results.get(j).click();
-                System.out.println("переход на " + a + " произошел по " + (j +1) + "-й ссылке");
-            }
-            else j = j + 1;
-        }
+    public void clickLink(List<WebElement> results) {
+        String a = "https://www.selenium.dev/";
+
+        results.get(0).click();
+        ArrayList tabs = new ArrayList<> (driver.getWindowHandles());
+        if (tabs.size() > 1) driver.switchTo().window(tabs.get(1).toString());
+
+        String b = driver.getCurrentUrl();
+
+        if (a.equals(b))
+            System.out.println("ссылка " + a + " совпадает с URL= "+ driver.getCurrentUrl() + " в открытом окне");
+        else System.out.println("ссылка " + a + " не совпадает с URL= "+ driver.getCurrentUrl() + " в открытом окне");
     }
 }
