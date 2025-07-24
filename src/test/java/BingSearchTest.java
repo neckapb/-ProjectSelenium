@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SeleniumTest {
+public class BingSearchTest {
     private WebDriver driver;
 
     @BeforeEach
